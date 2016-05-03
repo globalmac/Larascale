@@ -105,7 +105,6 @@ sudo useradd -g sudo -d /var/www/larascale -m -s /bin/bash larascale
 passwd larascale
 
 mkdir -p /var/www/larascale
-echo "<?php phpinfo(); ?>" >> /var/www/larascale/index.php
 chown -R larascale:www-data /var/www/larascale
 
 service php7.0-fpm restart > /dev/null 2>&1
