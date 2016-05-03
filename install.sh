@@ -98,9 +98,8 @@ echo
 
 mysql_secure_installation
 
-echo
-echo "=========== Please setting up MySQL installation... ==========="
-echo
+
+echo "=========== Adding larascale user ==========="
 
 sudo useradd -g sudo -d /var/www/larascale -m -s /bin/bash larascale
 passwd larascale
