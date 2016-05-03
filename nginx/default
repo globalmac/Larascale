@@ -1,5 +1,5 @@
 server {
-	listen 80 default default_server spdy;
+	listen 80 default default_server;
 	#server_name site.com;
 	
 	charset UTF-8;
