@@ -10,10 +10,11 @@ Simple to use Laravel 5.2 install shell script for Ubuntu 14.04
 ## 1 step: Services setting up (by root user):
 
 ```
-curl -O https://raw.githubusercontent.com/globalmac/fastvpsinstall/master/activate.sh
+curl -O https://raw.githubusercontent.com/globalmac/LaraScale-Ubuntu/master/install.sh
 ```
 ```
-bash activate.sh
+chmod +x install.sh
+bash install.sh
 ```
 
 ## 2 step: Composer & Laravel install (by larascale user):
