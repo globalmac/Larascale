@@ -85,6 +85,7 @@ echo "deb http://repo.percona.com/apt `lsb_release -cs` main" >> /etc/apt/source
 echo "deb-src http://repo.percona.com/apt `lsb_release -cs` main" >> /etc/apt/sources.list.d/percona.list  -y --force-yes -qq > /dev/null 2>&1
 
 apt-get update -y --force-yes -qq > /dev/null 2>&1
+echo "- Please enter mysql root user password - 123 & after you can change them"
 apt-get install percona-server-server-5.5 percona-server-client-5.5 -y
 
 mysql -e "CREATE FUNCTION fnv1a_64 RETURNS INTEGER SONAME 'libfnv1a_udf.so'" -u root -p123
