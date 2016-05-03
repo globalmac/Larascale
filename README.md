@@ -26,8 +26,8 @@ login larascale
 ```
 curl -sS https://getcomposer.org/installer | php
 sudo mv composer.phar /usr/local/bin/composer
-composer create-project --prefer-dist laravel/laravel larascale
-cd larascale
+composer create-project --prefer-dist laravel/laravel sites
+cd sites
 chmod -R o+w storage
 chmod -R o+w bootstrap/cache
 ```
