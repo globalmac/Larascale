@@ -40,7 +40,7 @@ echo
 echo "=========== Setting up PHP7 ==========="
 echo
 
-add-apt-repository ppa:ondrej/php -y --force-yes -qq > /dev/null 2>&1
+add-apt-repository ppa:ondrej/php
 apt-get update -y --force-yes -qq > /dev/null 2>&1
 
 echo
@@ -68,7 +68,7 @@ echo
 echo "=========== Install Nginx ==========="
 echo
 
-add-apt-repository ppa:nginx/stable -y --force-yes -qq > /dev/null 2>&1
+add-apt-repository ppa:nginx/stable
 apt-get update -y --force-yes -qq > /dev/null 2>&1
 apt-get install nginx -y --force-yes -qq > /dev/null 2>&1
 
@@ -80,9 +80,9 @@ echo
 echo "=========== Install Percona XtraDB Server ==========="
 echo
 
-apt-key adv --keyserver keys.gnupg.net --recv-keys 1C4CBDCDCD2EFD2A  -y --force-yes -qq > /dev/null 2>&1
-echo "deb http://repo.percona.com/apt `lsb_release -cs` main" >> /etc/apt/sources.list.d/percona.list  -y --force-yes -qq > /dev/null 2>&1
-echo "deb-src http://repo.percona.com/apt `lsb_release -cs` main" >> /etc/apt/sources.list.d/percona.list  -y --force-yes -qq > /dev/null 2>&1
+apt-key adv --keyserver keys.gnupg.net --recv-keys 1C4CBDCDCD2EFD2A
+echo "deb http://repo.percona.com/apt `lsb_release -cs` main" >> /etc/apt/sources.list.d/percona.list
+echo "deb-src http://repo.percona.com/apt `lsb_release -cs` main" >> /etc/apt/sources.list.d/percona.list
 
 apt-get update -y --force-yes -qq > /dev/null 2>&1
 echo "- Please enter mysql root user password - 123 & after you can change them"
