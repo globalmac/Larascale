@@ -3,12 +3,12 @@ server {
 	#server_name site.com;
 	
 	charset UTF-8;
-	disable_symlinks if_not_owner from=/var/www/larascale/sites/public;
+	#disable_symlinks if_not_owner from=/var/www/larascale/sites/public;
 	root /var/www/larascale/sites/public;
 	index  index.php;
 	
-	access_log /var/log/nginx/larascale.log;
-	error_log /var/log/nginx/larascale.error.log notice;
+	#access_log /var/log/nginx/larascale.log;
+	#error_log /var/log/nginx/larascale.error.log notice;
 	
 	
 	location ~ /\. {
