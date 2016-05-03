@@ -20,7 +20,9 @@ bash install.sh
 ## 2 step: Composer & Laravel install (by larascale user):
 
 Login to SSH by larascale user!
-
+```
+login larascale
+```
 ```
 curl -sS https://getcomposer.org/installer | php
 sudo mv composer.phar /usr/local/bin/composer
