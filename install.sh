@@ -104,7 +104,7 @@ echo "=========== Adding larascale user ==========="
 sudo useradd -g sudo -d /var/www/larascale -m -s /bin/bash larascale
 passwd larascale
 
-mkdir -p /var/www/larascale
+mkdir -p /var/www/larascale/sites
 chown -R larascale:www-data /var/www/larascale
 
 service php7.0-fpm restart > /dev/null 2>&1
