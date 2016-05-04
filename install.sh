@@ -142,7 +142,12 @@ apt-get update -y > /dev/null 2>&1
 echo "percona-server-server-5.5 mysql-server/root_password password $MYSQL_ROOT_PASSWORD" | debconf-set-selections
 echo "percona-server-server-5.5 mysql-server/root_password_again password $MYSQL_ROOT_PASSWORD" | debconf-set-selections
 
-apt-get install -y percona-server-server-5.5 percona-server-client-5.5 --show-progress --quiet
+read -p "Please copy this password - $MYSQL_ROOT_PASSWORD and paste them on root password field. Ok? [y/n]): " answer
+if [ "$answer" != 'y' ] && [ "$answer" != 'Y'  ]; then
+    echo '--------------------------'
+fi
+
+apt-get install -y percona-server-server-5.5 percona-server-client-5.5 --quiet --ignore-hold --allow-unauthenticated
 
 mysql -e "CREATE FUNCTION fnv1a_64 RETURNS INTEGER SONAME 'libfnv1a_udf.so'" -u root -p$MYSQL_ROOT_PASSWORD
 mysql -e "CREATE FUNCTION fnv_64 RETURNS INTEGER SONAME 'libfnv_udf.so'" -u root -p$MYSQL_ROOT_PASSWORD
