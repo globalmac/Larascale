@@ -63,7 +63,7 @@ echo "=========== Setting up PHP7 ==========="
 echo
 
 
-add-apt-repository ppa:ondrej/php -y
+add-apt-repository ppa:ondrej/php -y > /dev/null 2>&1
 apt-get update -y --force-yes -qq > /dev/null 2>&1
 
 
@@ -96,7 +96,7 @@ echo
 echo "=========== Install Nginx ==========="
 echo
 
-add-apt-repository ppa:nginx/stable -y
+add-apt-repository ppa:nginx/stable -y > /dev/null 2>&1
 apt-get update -y --force-yes -qq > /dev/null 2>&1
 apt-get install nginx -y --force-yes -qq > /dev/null 2>&1
 
@@ -111,7 +111,7 @@ echo
 echo "=========== Install Percona XtraDB Server ==========="
 echo
 
-apt-key adv --keyserver keys.gnupg.net --recv-keys 1C4CBDCDCD2EFD2A -y
+apt-key adv --keyserver keys.gnupg.net --recv-keys 1C4CBDCDCD2EFD2A > /dev/null 2>&1
 echo "deb http://repo.percona.com/apt `lsb_release -cs` main" >> /etc/apt/sources.list.d/percona.list > /dev/null 2>&1
 echo "deb-src http://repo.percona.com/apt `lsb_release -cs` main" >> /etc/apt/sources.list.d/percona.list > /dev/null 2>&1
 
@@ -158,11 +158,12 @@ echo
 echo "=========== Installing Composer & Laravel 5.2 ==========="
 echo
 
-curl -sS https://getcomposer.org/installer | php 
-mv composer.phar /usr/local/bin/composer > /dev/null 2>&1
+cd /var/www/larascale
+curl -sS https://getcomposer.org/installer | php > /dev/null 2>&1
+mv composer.phar /usr/local/bin/composer > /dev/null 2>&1 > /dev/null 2>&1
 composer create-project --prefer-dist laravel/laravel sites > /dev/null 2>&1
-cd sites
 chown -R larascale:www-data /var/www/larascale > /dev/null 2>&1
+cd sites
 chmod -R o+w storage > /dev/null 2>&1
 chmod -R o+w bootstrap/cache > /dev/null 2>&1
 
