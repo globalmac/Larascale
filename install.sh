@@ -140,22 +140,15 @@ dpkg -i percona-release_0.1-3.$(lsb_release -sc)_all.deb > /dev/null 2>&1
 
 apt-get update -y > /dev/null 2>&1
 
-#echo mysql-server mysql-server/root_password select $MYSQL_ROOT_PASSWORD | debconf-set-selections
-#echo mysql-server mysql-server/root_password_again select $MYSQL_ROOT_PASSWORD | debconf-set-selections
-
 #echo "percona-server-server-5.5 mysql-server/root_password password $MYSQL_ROOT_PASSWORD" | debconf-set-selections
 #echo "percona-server-server-5.5 mysql-server/root_password_again password $MYSQL_ROOT_PASSWORD" | debconf-set-selections
 
-#read -p "Please copy this password - $MYSQL_ROOT_PASSWORD and paste them on root password field. Ok? [y/n]): " answer
-#if [ "$answer" != 'y' ] && [ "$answer" != 'Y'  ]; then
-#    echo '--------------------------'
-#fi
+read -p "Please copy this password - $MYSQL_ROOT_PASSWORD and paste them on root password field. Ok? [y/n]): " answer
+if [ "$answer" != 'y' ] && [ "$answer" != 'Y'  ]; then
+    echo '--------------------------'
+fi
 
-export DEBIAN_FRONTEND=noninteractive
-sudo -E apt-get -q -y install percona-server-server-5.7
-#apt-get install -y percona-server-server-5.5 percona-server-client-5.5 --quiet
-
-mysqladmin -u root password $MYSQL_ROOT_PASSWORD
+apt-get install -y percona-server-server-5.7 --quiet
 
 mysql -e "CREATE FUNCTION fnv1a_64 RETURNS INTEGER SONAME 'libfnv1a_udf.so'" -u root -p$MYSQL_ROOT_PASSWORD
 mysql -e "CREATE FUNCTION fnv_64 RETURNS INTEGER SONAME 'libfnv_udf.so'" -u root -p$MYSQL_ROOT_PASSWORD
@@ -184,10 +177,6 @@ expect \"Reload privilege tables now?\"
 send \"y\r\"
 expect eof
 ")
-
-echo
-echo "New MySQL root user password is: $MYSQL_ROOT_PASSWORD"
-echo
 
 aptitude -y purge expect > /dev/null 2>&1
 
@@ -226,7 +215,7 @@ curl -sS https://getcomposer.org/installer | php > /dev/null 2>&1
 mv composer.phar /usr/local/bin/composer > /dev/null 2>&1 > /dev/null 2>&1
 
 echo
-echo "Installing Laravel 5.2, please wait..."
+echo "Installing Laravel 5.2, please wait, it can be more than 3 minutes..."
 echo
 
 composer create-project --prefer-dist laravel/laravel sites > /dev/null 2>&1
@@ -235,15 +224,26 @@ cd sites
 chmod -R 777 storage > /dev/null 2>&1
 chmod -R 777 bootstrap/cache > /dev/null 2>&1
 
-
 service php7.0-fpm restart > /dev/null 2>&1
 service nginx restart > /dev/null 2>&1
 service mysql restart > /dev/null 2>&1
 
 echo "==========="
 echo "Installation complete succesful! Your new Laravel is ready!"
-echo "Go to - http://$(ifconfig | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]*\.){3}[0-9]*' | grep -v '127.0.0.1')"
+echo "1) SSH user:"
+echo "Login: larascale"
+echo "Password: $larascale_password"
+echo "2) MySQL user:"
+echo "Login: root"
+echo "Password: $MYSQL_ROOT_PASSWORD"
+echo
+echo "Your Laravel site run on - http://$(ifconfig | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]*\.){3}[0-9]*' | grep -v '127.0.0.1')"
 echo ""
 echo "==========="
+
+apt-get autoclean > /dev/null 2>&1
+apt-get autoremove > /dev/null 2>&1
+rm install.sh > /dev/null 2>&1
+rm percona-release_0.1-3.$(lsb_release -sc)_all.deb > /dev/null 2>&1
 
 exit
