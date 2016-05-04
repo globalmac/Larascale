@@ -40,6 +40,7 @@ echo '- Nginx (stable >= 1.8)'
 echo '- PHP 7 with PHP7-FPM (php7.0-fpm, php7.0-cli, php7.0-mysql, php7.0-mcrypt, php7.0-mbstring, php7.0-json, php7.0-zip)'
 echo '- Percona XtraDB Server (fork MySQL 5.5)'
 echo '- Composer + Laravel 5.2'
+echo
 
 read -p 'Ok, install right now? [y/n]): ' answer
 if [ "$answer" != 'y' ] && [ "$answer" != 'Y'  ]; then
@@ -54,6 +55,8 @@ apt-get update -y --force-yes -qq > /dev/null 2>&1
 echo "- System update, please wait..."
 apt-get upgrade -y --force-yes -qq > /dev/null 2>&1
 
+echo "- System utils installing..."
+apt-get install mc zip unzip htop python-software-properties software-properties-common build-essential -y > /dev/null 2>&1
 
 echo
 echo "=========== Setting up PHP7 ==========="
