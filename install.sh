@@ -128,7 +128,7 @@ apt-get update -y --force-yes -qq > /dev/null 2>&1
 
 echo percona-server-5.5 percona-server/root_password password 123 | debconf-set-selections
 echo percona-server-5.5 percona-server/root_password_again password 123 | debconf-set-selections
-apt-get install percona-server-server-5.5 percona-server-client-5.5 -y
+apt-get install percona-server-server-5.5 percona-server-client-5.5 -y --force-yes -qq > /dev/null 2>&1
 
 mysql -e "CREATE FUNCTION fnv1a_64 RETURNS INTEGER SONAME 'libfnv1a_udf.so'" -u root -p123
 mysql -e "CREATE FUNCTION fnv_64 RETURNS INTEGER SONAME 'libfnv_udf.so'" -u root -p123
