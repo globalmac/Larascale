@@ -86,6 +86,10 @@ echo "12) php7.0-mbstring"
 echo "13) php7.0-json"
 echo "14) php7.0-zip"
 
+echo
+echo "Installing, please wait..."
+echo
+
 apt-get install php7.0-fpm php7.0-common php7.0-gd php7.0-mysql php7.0-curl php7.0-cli php-pear php7.0-dev php7.0-imap php7.0-mcrypt php7.0-readline php7.0-mbstring php7.0-json php7.0-zip -y --force-yes -qq > /dev/null 2>&1
 
 echo
@@ -98,6 +102,11 @@ echo
 
 add-apt-repository ppa:nginx/stable -y > /dev/null 2>&1
 apt-get update -y --force-yes -qq > /dev/null 2>&1
+
+echo
+echo "Installing, please wait..."
+echo
+
 apt-get install nginx -y --force-yes -qq > /dev/null 2>&1
 
 rm /etc/nginx/sites-available/default > /dev/null 2>&1
