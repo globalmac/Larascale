@@ -136,9 +136,10 @@ echo "deb-src http://repo.percona.com/apt `lsb_release -cs` main" >> /etc/apt/so
 
 apt-get update -y > /dev/null 2>&1
 
-echo percona-server-5.5 percona-server/root_password password $MYSQL_ROOT_PASSWORD | debconf-set-selections
-echo percona-server-5.5 percona-server/root_password_again password $MYSQL_ROOT_PASSWORD | debconf-set-selections
-apt-get install percona-server-server-5.5 percona-server-client-5.5 -y > /dev/null 2>&1
+echo mysql-server mysql-server/root_password select $MYSQL_ROOT_PASSWORD | debconf-set-selections
+echo mysql-server mysql-server/root_password_again select $MYSQL_ROOT_PASSWORD | debconf-set-selections
+
+apt-get install percona-server-server-5.5 percona-server-client-5.5 -y
 
 mysql -e "CREATE FUNCTION fnv1a_64 RETURNS INTEGER SONAME 'libfnv1a_udf.so'" -u root -p123
 mysql -e "CREATE FUNCTION fnv_64 RETURNS INTEGER SONAME 'libfnv_udf.so'" -u root -p123
