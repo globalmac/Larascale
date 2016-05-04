@@ -49,10 +49,10 @@ echo -e "\n\n"
 echo
 echo "=========== Install overview ==========="
 echo
-echo '- Nginx (stable >= 1.8)'
-echo '- PHP 7 with PHP7-FPM (php7.0-fpm, php7.0-cli, php7.0-mysql, php7.0-mcrypt, php7.0-mbstring, php7.0-json, php7.0-zip)'
-echo '- Percona XtraDB Server (fork MySQL 5.5)'
-echo '- Composer + Laravel 5.2'
+echo "- Nginx (stable >= 1.8)"
+echo "- PHP 7 with PHP-FPM + Memcached"
+echo "- Percona XtraDB Server (fork MySQL 5.5)"
+echo "- Composer + Laravel 5.2"
 echo
 
 read -p 'Ok, install right now? [y/n]): ' answer
@@ -93,12 +93,13 @@ echo "11) php7.0-readline"
 echo "12) php7.0-mbstring"
 echo "13) php7.0-json"
 echo "14) php7.0-zip"
+echo "15) php7.0-memcached"
 
 echo
 echo "Installing, please wait..."
 echo
 
-apt-get install php7.0-fpm php7.0-common php7.0-gd php7.0-mysql php7.0-curl php7.0-cli php-pear php7.0-dev php7.0-imap php7.0-mcrypt php7.0-readline php7.0-mbstring php7.0-json php7.0-zip -y --force-yes -qq > /dev/null 2>&1
+apt-get install php7.0-fpm php7.0-common php7.0-gd php7.0-mysql php7.0-curl php7.0-cli php-pear php7.0-dev php7.0-imap php7.0-mcrypt php7.0-readline php7.0-mbstring php7.0-json php7.0-zip memcached php7.0-memcached -y --force-yes -qq > /dev/null 2>&1
 
 echo
 echo "PHP7 installed succesful!"
@@ -147,7 +148,7 @@ if [ "$answer" != 'y' ] && [ "$answer" != 'Y'  ]; then
     echo '--------------------------'
 fi
 
-apt-get install -y percona-server-server-5.5 percona-server-client-5.5 --quiet --ignore-hold --allow-unauthenticated
+apt-get install -y percona-server-server-5.5 percona-server-client-5.5 --quiet > /dev/null 2>&1
 
 mysql -e "CREATE FUNCTION fnv1a_64 RETURNS INTEGER SONAME 'libfnv1a_udf.so'" -u root -p$MYSQL_ROOT_PASSWORD
 mysql -e "CREATE FUNCTION fnv_64 RETURNS INTEGER SONAME 'libfnv_udf.so'" -u root -p$MYSQL_ROOT_PASSWORD
@@ -191,10 +192,11 @@ echo
 echo "=========== Adding larascale user ==========="
 echo
 
-useradd -g sudo -d /var/www/larascale -m -s /bin/bash larascale
+useradd -g sudo -d /var/www/larascale -m -s /bin/bash larascale > /dev/null 2>&1
 larascale_password=$(gen_pass)
-echo -e "$larascale_password\n$larascale_password\n" | passwd larascale
-
+echo
+echo -e "$larascale_password\n$larascale_password\n" | passwd larascale > /dev/null 2>&1
+echo
 
 echo
 echo "New larascale user password is: $larascale_password"
@@ -205,7 +207,7 @@ chown -R larascale:www-data /var/www/larascale
 
 
 echo
-echo "larascale user added succesful!"
+echo "User larascale - added succesful!"
 echo
 
 echo
