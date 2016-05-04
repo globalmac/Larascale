@@ -161,6 +161,11 @@ echo
 cd /var/www/larascale
 curl -sS https://getcomposer.org/installer | php > /dev/null 2>&1
 mv composer.phar /usr/local/bin/composer > /dev/null 2>&1 > /dev/null 2>&1
+
+echo
+echo "Installing Laravel 5.2, please wait..."
+echo
+
 composer create-project --prefer-dist laravel/laravel sites > /dev/null 2>&1
 chown -R larascale:www-data /var/www/larascale > /dev/null 2>&1
 cd sites
