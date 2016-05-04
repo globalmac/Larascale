@@ -183,12 +183,13 @@ echo
 echo "=========== Adding larascale user ==========="
 echo
 
-useradd -g sudo -d /var/www/larascale -m -s /bin/bash larascale
-lascale_password=$(gen_pass)
-echo $lascale_password | passwd larascale --stdin
+useradd --quiet --disabled-password -g sudo -d /var/www/larascale -m -s /bin/bash larascale
+larascale_password=$(gen_pass)
+echo "lascale:$larascale_password" | chpasswd
+
 
 echo
-echo "New larascale user password is: $lascale_password"
+echo "New larascale user password is: $larascale_password"
 echo
 
 mkdir -p /var/www/larascale/sites
