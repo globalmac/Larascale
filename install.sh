@@ -60,7 +60,7 @@ echo "=========== Setting up PHP7 ==========="
 echo
 
 
-add-apt-repository ppa:ondrej/php -y > /dev/null 2>&1
+add-apt-repository ppa:ondrej/php -y
 apt-get update -y --force-yes -qq > /dev/null 2>&1
 
 
@@ -93,7 +93,7 @@ echo
 echo "=========== Install Nginx ==========="
 echo
 
-add-apt-repository ppa:nginx/stable -y > /dev/null 2>&1
+add-apt-repository ppa:nginx/stable -y
 apt-get update -y --force-yes -qq > /dev/null 2>&1
 apt-get install nginx -y --force-yes -qq > /dev/null 2>&1
 
@@ -108,7 +108,7 @@ echo
 echo "=========== Install Percona XtraDB Server ==========="
 echo
 
-apt-key adv --keyserver keys.gnupg.net --recv-keys 1C4CBDCDCD2EFD2A -y > /dev/null 2>&1
+apt-key adv --keyserver keys.gnupg.net --recv-keys 1C4CBDCDCD2EFD2A -y
 echo "deb http://repo.percona.com/apt `lsb_release -cs` main" >> /etc/apt/sources.list.d/percona.list > /dev/null 2>&1
 echo "deb-src http://repo.percona.com/apt `lsb_release -cs` main" >> /etc/apt/sources.list.d/percona.list > /dev/null 2>&1
 
@@ -136,12 +136,15 @@ echo
 echo "=========== Adding larascale user ==========="
 echo
 
-sudo useradd -g sudo -d /var/www/larascale -m -s /bin/bash larascale
+useradd -g sudo -d /var/www/larascale -m -s /bin/bash larascale
+echo
 echo "Please enter larascale user password"
+echo
+
 passwd larascale
 
 mkdir -p /var/www/larascale/sites
-#chown -R larascale:www-data /var/www/larascale
+chown -R larascale:www-data /var/www/larascale
 
 
 echo
@@ -152,8 +155,8 @@ echo
 echo "=========== Installing Composer & Laravel 5.2 ==========="
 echo
 
-curl -sS https://getcomposer.org/installer | php > /dev/null 2>&1
-sudo mv composer.phar /usr/local/bin/composer > /dev/null 2>&1
+curl -sS https://getcomposer.org/installer | php 
+mv composer.phar /usr/local/bin/composer > /dev/null 2>&1
 composer create-project --prefer-dist laravel/laravel sites > /dev/null 2>&1
 cd sites
 chown -R larascale:www-data /var/www/larascale > /dev/null 2>&1
