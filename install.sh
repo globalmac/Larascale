@@ -71,11 +71,6 @@ apt-get upgrade -y --force-yes -qq > /dev/null 2>&1
 echo "- System utils installing..."
 apt-get install mc zip unzip htop python-software-properties software-properties-common build-essential -y > /dev/null 2>&1
 
-echo
-echo "=========== Setting up PHP7 ==========="
-echo
-
-
 add-apt-repository ppa:ondrej/php -y > /dev/null 2>&1
 apt-get update -y --force-yes -qq > /dev/null 2>&1
 
@@ -153,13 +148,13 @@ echo
 echo "=========== Attention! MySQL root user password is: 123 ==========="
 echo
 
-aptitude -y install expect
+aptitude -y install expect > /dev/null 2>&1
 
 SECURE_MYSQL=$(expect -c "
 set timeout 10
 spawn mysql_secure_installation
 expect \"Enter current password for root (enter for none):\"
-send \"$MYSQL\r\"
+send \"$MYSQL_ROOT_PASSWORD\r\"
 expect \"Change the root password?\"
 send \"n\r\"
 expect \"Remove anonymous users?\"
@@ -177,7 +172,7 @@ echo
 echo "New MySQL root user password is: $MYSQL_ROOT_PASSWORD"
 echo
 
-aptitude -y purge expect
+aptitude -y purge expect > /dev/null 2>&1
 
 echo
 echo "MySQL (Percona XtraDB Server) installed succesful!"
