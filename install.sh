@@ -139,7 +139,7 @@ apt-get update -y > /dev/null 2>&1
 echo mysql-server mysql-server/root_password select $MYSQL_ROOT_PASSWORD | debconf-set-selections
 echo mysql-server mysql-server/root_password_again select $MYSQL_ROOT_PASSWORD | debconf-set-selections
 
-apt-get install percona-server-server-5.5 percona-server-client-5.5 -y --force-yes
+apt-get install percona-server-server-5.5 percona-server-client-5.5 -y --force-yes -qq
 
 mysql -e "CREATE FUNCTION fnv1a_64 RETURNS INTEGER SONAME 'libfnv1a_udf.so'" -u root -p$MYSQL_ROOT_PASSWORD
 mysql -e "CREATE FUNCTION fnv_64 RETURNS INTEGER SONAME 'libfnv_udf.so'" -u root -p$MYSQL_ROOT_PASSWORD
@@ -152,7 +152,7 @@ echo
 aptitude -y install expect > /dev/null 2>&1
 
 SECURE_MYSQL=$(expect -c "
-set timeout 10
+set timeout 5
 spawn mysql_secure_installation
 expect \"Enter current password for root (enter for none):\"
 send \"$MYSQL_ROOT_PASSWORD\r\"
@@ -183,9 +183,9 @@ echo
 echo "=========== Adding larascale user ==========="
 echo
 
-useradd --quiet --disabled-password -g sudo -d /var/www/larascale -m -s /bin/bash larascale
+useradd -g sudo -d /var/www/larascale -m -s /bin/bash larascale
 larascale_password=$(gen_pass)
-echo "larascale:$larascale_password" | chpasswd
+echo -e "$larascale_password\n$larascale_password\n" | passwd larascale
 
 
 echo
