@@ -48,35 +48,10 @@ if [ "$answer" != 'y' ] && [ "$answer" != 'Y'  ]; then
     exit 1
 fi
 
-progressfilt ()
-{
-    local flag=false c count cr=$'\r' nl=$'\n'
-    while IFS='' read -d '' -rn 1 c
-    do
-        if $flag
-        then
-            printf '%c' "$c"
-        else
-            if [[ $c != $cr && $c != $nl ]]
-            then
-                count=0
-            else
-                ((count++))
-                if ((count > 1))
-                then
-                    flag=true
-                fi
-            fi
-        fi
-    done
-}
-
-
-echo "Checking system updates, please wait..."
-apt-get update -y --force-yes -qq > /dev/null 2>&1 | progressfilt
-
 echo
-echo "System update, please wait..."
+echo "- Checking system updates, please wait..."
+apt-get update -y --force-yes -qq > /dev/null 2>&1
+echo "- System update, please wait..."
 apt-get upgrade -y --force-yes -qq > /dev/null 2>&1
 
 
@@ -122,8 +97,8 @@ add-apt-repository ppa:nginx/stable -y > /dev/null 2>&1
 apt-get update -y --force-yes -qq > /dev/null 2>&1
 apt-get install nginx -y --force-yes -qq > /dev/null 2>&1
 
-rm /etc/nginx/sites-available/default
-wget https://raw.githubusercontent.com/globalmac/LaraScale-Ubuntu/master/nginx/default -O /etc/nginx/sites-available/default
+rm /etc/nginx/sites-available/default > /dev/null 2>&1
+wget https://raw.githubusercontent.com/globalmac/LaraScale-Ubuntu/master/nginx/default -O /etc/nginx/sites-available/default > /dev/null 2>&1
 
 echo
 echo "Nginx installed succesful!"
@@ -139,8 +114,8 @@ echo "deb-src http://repo.percona.com/apt `lsb_release -cs` main" >> /etc/apt/so
 
 apt-get update -y --force-yes -qq > /dev/null 2>&1
 
-echo percona-server-5.5 percona-server/root_password password 123 | debconf-set-selections
-echo percona-server-5.5 percona-server/root_password_again password 123 | debconf-set-selections
+#echo percona-server-5.5 percona-server/root_password password 123 | debconf-set-selections
+#echo percona-server-5.5 percona-server/root_password_again password 123 | debconf-set-selections
 apt-get install percona-server-server-5.5 percona-server-client-5.5 -y
 
 mysql -e "CREATE FUNCTION fnv1a_64 RETURNS INTEGER SONAME 'libfnv1a_udf.so'" -u root -p123
