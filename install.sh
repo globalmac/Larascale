@@ -21,6 +21,18 @@ if [ "$(head -n1 /etc/issue | cut -f 1 -d ' ')" != 'Ubuntu' && "$(head -n1 /etc/
     exit 1
 fi
 
+gen_pass() {
+    MATRIX='0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'
+    LENGTH=16
+    while [ ${n:=1} -le $LENGTH ]; do
+        PASS="$PASS${MATRIX:$(($RANDOM%${#MATRIX})):1}"
+        let n+=1
+    done
+    echo "$PASS"
+}
+
+#new_pass=$(gen_pass)
+
 clear
 echo
 echo
@@ -121,15 +133,17 @@ echo
 echo "=========== Install Percona XtraDB Server ==========="
 echo
 
+MYSQL_ROOT_PASSWORD=$(gen_pass)
+
 apt-key adv --keyserver keys.gnupg.net --recv-keys 1C4CBDCDCD2EFD2A > /dev/null 2>&1
 echo "deb http://repo.percona.com/apt `lsb_release -cs` main" >> /etc/apt/sources.list.d/percona.list
 echo "deb-src http://repo.percona.com/apt `lsb_release -cs` main" >> /etc/apt/sources.list.d/percona.list
 
-apt-get update -y --force-yes -qq > /dev/null 2>&1
+apt-get update -y > /dev/null 2>&1
 
-echo percona-server-5.5 percona-server/root_password password 123 | debconf-set-selections
-echo percona-server-5.5 percona-server/root_password_again password 123 | debconf-set-selections
-apt-get install percona-server-server-5.5 percona-server-client-5.5 -y --force-yes -qq > /dev/null 2>&1
+echo percona-server-5.5 percona-server/root_password password $MYSQL_ROOT_PASSWORD | debconf-set-selections
+echo percona-server-5.5 percona-server/root_password_again password $MYSQL_ROOT_PASSWORD | debconf-set-selections
+apt-get install percona-server-server-5.5 percona-server-client-5.5 -y > /dev/null 2>&1
 
 mysql -e "CREATE FUNCTION fnv1a_64 RETURNS INTEGER SONAME 'libfnv1a_udf.so'" -u root -p123
 mysql -e "CREATE FUNCTION fnv_64 RETURNS INTEGER SONAME 'libfnv_udf.so'" -u root -p123
@@ -139,7 +153,31 @@ echo
 echo "=========== Attention! MySQL root user password is: 123 ==========="
 echo
 
-mysql_secure_installation
+aptitude -y install expect
+
+SECURE_MYSQL=$(expect -c "
+set timeout 10
+spawn mysql_secure_installation
+expect \"Enter current password for root (enter for none):\"
+send \"$MYSQL\r\"
+expect \"Change the root password?\"
+send \"n\r\"
+expect \"Remove anonymous users?\"
+send \"y\r\"
+expect \"Disallow root login remotely?\"
+send \"y\r\"
+expect \"Remove test database and access to it?\"
+send \"y\r\"
+expect \"Reload privilege tables now?\"
+send \"y\r\"
+expect eof
+")
+
+echo
+echo "New MySQL root user password is: $MYSQL_ROOT_PASSWORD"
+echo
+
+aptitude -y purge expect
 
 echo
 echo "MySQL (Percona XtraDB Server) installed succesful!"
@@ -150,11 +188,12 @@ echo "=========== Adding larascale user ==========="
 echo
 
 useradd -g sudo -d /var/www/larascale -m -s /bin/bash larascale
-echo
-echo "Please enter larascale user password"
-echo
+lascale_password=$(gen_pass)
+echo $lascale_password | passwd larascale --stdin
 
-passwd larascale
+echo
+echo "New larascale user password is: $lascale_password"
+echo
 
 mkdir -p /var/www/larascale/sites
 chown -R larascale:www-data /var/www/larascale
