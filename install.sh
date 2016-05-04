@@ -110,7 +110,7 @@ echo
 apt-get install nginx -y --force-yes -qq > /dev/null 2>&1
 
 rm /etc/nginx/sites-available/default > /dev/null 2>&1
-wget https://raw.githubusercontent.com/globalmac/LaraScale-Ubuntu/master/nginx/default -O /etc/nginx/sites-available/default > /dev/null 2>&1
+wget https://raw.githubusercontent.com/globalmac/Larascale/master/nginx/default -O /etc/nginx/sites-available/default > /dev/null 2>&1
 
 echo
 echo "Nginx installed succesful!"
