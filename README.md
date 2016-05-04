@@ -4,7 +4,7 @@ Simple to use Laravel 5.2 install shell script for Ubuntu 14.04
 ## Include:
 
 *   Nginx
-*   PHP 7 (PHP7-FPM)
+*   PHP 7 (PHP-FPM + Memcached)
 *   Percona XtraDB Server
 *   Composer
 *   Laravel 5.2
