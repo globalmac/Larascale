@@ -131,24 +131,31 @@ echo
 
 MYSQL_ROOT_PASSWORD=$(gen_pass)
 
-apt-key adv --keyserver keys.gnupg.net --recv-keys 1C4CBDCDCD2EFD2A > /dev/null 2>&1
-echo "deb http://repo.percona.com/apt `lsb_release -cs` main" >> /etc/apt/sources.list.d/percona.list
-echo "deb-src http://repo.percona.com/apt `lsb_release -cs` main" >> /etc/apt/sources.list.d/percona.list
+#apt-key adv --keyserver keys.gnupg.net --recv-keys 1C4CBDCDCD2EFD2A > /dev/null 2>&1
+#echo "deb http://repo.percona.com/apt `lsb_release -cs` main" >> /etc/apt/sources.list.d/percona.list
+#echo "deb-src http://repo.percona.com/apt `lsb_release -cs` main" >> /etc/apt/sources.list.d/percona.list
+
+wget https://repo.percona.com/apt/percona-release_0.1-3.$(lsb_release -sc)_all.deb > /dev/null 2>&1
+dpkg -i percona-release_0.1-3.$(lsb_release -sc)_all.deb > /dev/null 2>&1
 
 apt-get update -y > /dev/null 2>&1
 
 #echo mysql-server mysql-server/root_password select $MYSQL_ROOT_PASSWORD | debconf-set-selections
 #echo mysql-server mysql-server/root_password_again select $MYSQL_ROOT_PASSWORD | debconf-set-selections
 
-echo "percona-server-server-5.5 mysql-server/root_password password $MYSQL_ROOT_PASSWORD" | debconf-set-selections
-echo "percona-server-server-5.5 mysql-server/root_password_again password $MYSQL_ROOT_PASSWORD" | debconf-set-selections
+#echo "percona-server-server-5.5 mysql-server/root_password password $MYSQL_ROOT_PASSWORD" | debconf-set-selections
+#echo "percona-server-server-5.5 mysql-server/root_password_again password $MYSQL_ROOT_PASSWORD" | debconf-set-selections
 
-read -p "Please copy this password - $MYSQL_ROOT_PASSWORD and paste them on root password field. Ok? [y/n]): " answer
-if [ "$answer" != 'y' ] && [ "$answer" != 'Y'  ]; then
-    echo '--------------------------'
-fi
+#read -p "Please copy this password - $MYSQL_ROOT_PASSWORD and paste them on root password field. Ok? [y/n]): " answer
+#if [ "$answer" != 'y' ] && [ "$answer" != 'Y'  ]; then
+#    echo '--------------------------'
+#fi
 
-apt-get install -y percona-server-server-5.5 percona-server-client-5.5 --quiet
+export DEBIAN_FRONTEND=noninteractive
+sudo -E apt-get -q -y install percona-server-server-5.7
+#apt-get install -y percona-server-server-5.5 percona-server-client-5.5 --quiet
+
+mysqladmin -u root password $MYSQL_ROOT_PASSWORD
 
 mysql -e "CREATE FUNCTION fnv1a_64 RETURNS INTEGER SONAME 'libfnv1a_udf.so'" -u root -p$MYSQL_ROOT_PASSWORD
 mysql -e "CREATE FUNCTION fnv_64 RETURNS INTEGER SONAME 'libfnv_udf.so'" -u root -p$MYSQL_ROOT_PASSWORD
