@@ -1,10 +1,11 @@
 # LaraScale package for Ubuntu 14.04
-Simple to use Laravel 5.2 install shell script for Ubuntu 14.04
+Simple & high-performance Laravel 5.2 install package (shell script) for Ubuntu 14.04
 
 ## Include:
 
 *   Nginx
-*   PHP 7 (PHP-FPM + Memcached)
+*   PHP 7 (PHP-FPM)
+*   Memcached Server
 *   Percona XtraDB Server
 *   Composer
 *   Laravel 5.2
@@ -21,3 +22,5 @@ bash install.sh
 After installation you can login to ssh/sftp via user - **larascale**.
 
 Your site placed in **/var/www/larascale/sites**.
+
+More docs coming soon...
