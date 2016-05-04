@@ -139,11 +139,11 @@ apt-get update -y > /dev/null 2>&1
 echo mysql-server mysql-server/root_password select $MYSQL_ROOT_PASSWORD | debconf-set-selections
 echo mysql-server mysql-server/root_password_again select $MYSQL_ROOT_PASSWORD | debconf-set-selections
 
-apt-get install percona-server-server-5.5 percona-server-client-5.5 -y --force-yes -qq > /dev/null 2>&1
+apt-get install percona-server-server-5.5 percona-server-client-5.5 -y --force-yes -qq
 
-mysql -e "CREATE FUNCTION fnv1a_64 RETURNS INTEGER SONAME 'libfnv1a_udf.so'" -u root -p123
-mysql -e "CREATE FUNCTION fnv_64 RETURNS INTEGER SONAME 'libfnv_udf.so'" -u root -p123
-mysql -e "CREATE FUNCTION murmur_hash RETURNS INTEGER SONAME 'libmurmur_udf.so'" -u root -p123
+mysql -e "CREATE FUNCTION fnv1a_64 RETURNS INTEGER SONAME 'libfnv1a_udf.so'" -u root -p$MYSQL_ROOT_PASSWORD
+mysql -e "CREATE FUNCTION fnv_64 RETURNS INTEGER SONAME 'libfnv_udf.so'" -u root -p$MYSQL_ROOT_PASSWORD
+mysql -e "CREATE FUNCTION murmur_hash RETURNS INTEGER SONAME 'libmurmur_udf.so'" -u root -p$MYSQL_ROOT_PASSWORD
 
 echo
 echo "=========== Attention! MySQL root user password is: $MYSQL_ROOT_PASSWORD ==========="
