@@ -169,8 +169,9 @@ echo
 composer create-project --prefer-dist laravel/laravel sites > /dev/null 2>&1
 chown -R larascale:www-data /var/www/larascale > /dev/null 2>&1
 cd sites
-chmod -R o+w storage > /dev/null 2>&1
-chmod -R o+w bootstrap/cache > /dev/null 2>&1
+chmod -R 777 storage > /dev/null 2>&1
+chmod -R 777 bootstrap/cache > /dev/null 2>&1
+
 
 service php7.0-fpm restart > /dev/null 2>&1
 service nginx restart > /dev/null 2>&1
