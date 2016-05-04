@@ -126,8 +126,8 @@ echo "deb-src http://repo.percona.com/apt `lsb_release -cs` main" >> /etc/apt/so
 
 apt-get update -y --force-yes -qq > /dev/null 2>&1
 
-#echo percona-server-5.5 percona-server/root_password password 123 | debconf-set-selections
-#echo percona-server-5.5 percona-server/root_password_again password 123 | debconf-set-selections
+echo percona-server-5.5 percona-server/root_password password 123 | debconf-set-selections
+echo percona-server-5.5 percona-server/root_password_again password 123 | debconf-set-selections
 apt-get install percona-server-server-5.5 percona-server-client-5.5 -y
 
 mysql -e "CREATE FUNCTION fnv1a_64 RETURNS INTEGER SONAME 'libfnv1a_udf.so'" -u root -p123
@@ -188,6 +188,8 @@ service mysql restart > /dev/null 2>&1
 
 echo "==========="
 echo "Installation complete succesful! Your new Laravel is ready!"
+echo "Go to - http://$(ifconfig | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]*\.){3}[0-9]*' | grep -v '127.0.0.1')"
+echo ""
 echo "==========="
 
 exit
