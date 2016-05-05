@@ -12,14 +12,14 @@ if [ "x$(id -u)" != 'x0' ]; then
 fi
 
 # Check OS
-if [ "$(head -n1 /etc/issue | cut -f 1 -d ' ')" != 'Ubuntu' && "$(head -n1 /etc/issue | cut -f 2 -d ' ')" != '14.04.4']; then
-    echo
-    echo "================== Error ====================="
-    echo "This script may be run only on Ubuntu 14.04.4"
-    echo "=============================================="
-    echo
-    exit 1
-fi
+#if [ "$(head -n1 /etc/issue | cut -f 1 -d ' ')" != 'Ubuntu' && "$(head -n1 /etc/issue | cut -f 2 -d ' ')" != '14.04.4']; then
+#    echo
+#    echo "================== Error ====================="
+#    echo "This script may be run only on Ubuntu 14.04.4"
+#    echo "=============================================="
+#    echo
+#    exit 1
+#fi
 
 gen_pass() {
     MATRIX='0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'
@@ -50,8 +50,9 @@ echo
 echo "=========== Install overview ==========="
 echo
 echo "- Nginx (stable >= 1.8)"
-echo "- PHP 7 with PHP-FPM + Memcached"
-echo "- Percona XtraDB Server (fork MySQL 5.5)"
+echo "- PHP 7 with PHP-FPM"
+echo "- Memcached Server"
+echo "- Percona XtraDB Server 5.7 (fork MySQL)"
 echo "- Composer + Laravel 5.2"
 echo
 
@@ -88,7 +89,7 @@ echo "6) php7.0-cli"
 echo "7) php-pear"
 echo "8) php7.0-dev"
 echo "9) php7.0-imap"
-echo "10) php7.0-mcryp"
+echo "10) php7.0-mcrypt"
 echo "11) php7.0-readline"
 echo "12) php7.0-mbstring"
 echo "13) php7.0-json"
@@ -96,13 +97,13 @@ echo "14) php7.0-zip"
 echo "15) php7.0-memcached"
 
 echo
-echo "Installing, please wait..."
+echo "- Installing, please wait..."
 echo
 
 apt-get install php7.0-fpm php7.0-common php7.0-gd php7.0-mysql php7.0-curl php7.0-cli php-pear php7.0-dev php7.0-imap php7.0-mcrypt php7.0-readline php7.0-mbstring php7.0-json php7.0-zip memcached php7.0-memcached -y --force-yes -qq > /dev/null 2>&1
 
 echo
-echo "PHP7 installed succesful!"
+echo "==> PHP7 installed succesful!"
 echo
 
 echo
@@ -113,7 +114,7 @@ add-apt-repository ppa:nginx/stable -y > /dev/null 2>&1
 apt-get update -y --force-yes -qq > /dev/null 2>&1
 
 echo
-echo "Installing, please wait..."
+echo "- Installing, please wait..."
 echo
 
 apt-get install nginx -y --force-yes -qq > /dev/null 2>&1
@@ -122,7 +123,7 @@ rm /etc/nginx/sites-available/default > /dev/null 2>&1
 wget https://raw.githubusercontent.com/globalmac/Larascale/master/nginx/default -O /etc/nginx/sites-available/default > /dev/null 2>&1
 
 echo
-echo "Nginx installed succesful!"
+echo "==> Nginx installed succesful!"
 echo
 
 echo
@@ -131,16 +132,13 @@ echo
 
 MYSQL_ROOT_PASSWORD=$(gen_pass)
 
-#!/bin/bash
-
-echo "Type your percona server root password:"
-read MYSQL_PASSWORD
-
 wget https://repo.percona.com/apt/percona-release_0.1-3.$(lsb_release -sc)_all.deb > /dev/null 2>&1
 
 dpkg -i percona-release_0.1-3.$(lsb_release -sc)_all.deb > /dev/null 2>&1
 
-echo "Обновление..."
+echo
+echo "- Cleaning up, please wait..."
+echo
 
 apt-get update -y > /dev/null 2>&1
 apt-get upgrade -y > /dev/null 2>&1
@@ -149,29 +147,35 @@ apt-get autoclean -y > /dev/null 2>&1
 apt-get autoremove -y > /dev/null 2>&1
 
 
-echo "percona-server-server-5.5 percona-server-server/root_password_again password $MYSQL_ROOT_PASSWORD" | debconf-set-selections
-echo "percona-server-server-5.5 percona-server-server/root_password password $MYSQL_ROOT_PASSWORD" | debconf-set-selections
+echo "percona-server-server-5.5 percona-server-server/root_password_again password $MYSQL_ROOT_PASSWORD" | debconf-set-selections > /dev/null 2>&1
+echo "percona-server-server-5.5 percona-server-server/root_password password $MYSQL_ROOT_PASSWORD" | debconf-set-selections > /dev/null 2>&1
 
-echo "Установка..."
+echo
+echo "- Installing, please wait..."
+echo
 
 apt-get install percona-server-server-5.5 -y -qq > /dev/null 2>&1
 
 service mysql stop > /dev/null 2>&1
 
-echo "Обновление версии до 5.7 ..."
+echo
+echo "- Update, please wait..."
+echo
 
 apt-get install percona-server-server-5.7 -y -qq > /dev/null 2>&1
 
-mysql -e "CREATE FUNCTION fnv1a_64 RETURNS INTEGER SONAME 'libfnv1a_udf.so'" -u root -p$MYSQL_ROOT_PASSWORD
-mysql -e "CREATE FUNCTION fnv_64 RETURNS INTEGER SONAME 'libfnv_udf.so'" -u root -p$MYSQL_ROOT_PASSWORD
-mysql -e "CREATE FUNCTION murmur_hash RETURNS INTEGER SONAME 'libmurmur_udf.so'" -u root -p$MYSQL_ROOT_PASSWORD
+mysql -e "CREATE FUNCTION fnv1a_64 RETURNS INTEGER SONAME 'libfnv1a_udf.so'" -u root -p$MYSQL_ROOT_PASSWORD > /dev/null 2>&1
+mysql -e "CREATE FUNCTION fnv_64 RETURNS INTEGER SONAME 'libfnv_udf.so'" -u root -p$MYSQL_ROOT_PASSWORD > /dev/null 2>&1
+mysql -e "CREATE FUNCTION murmur_hash RETURNS INTEGER SONAME 'libmurmur_udf.so'" -u root -p$MYSQL_ROOT_PASSWORD > /dev/null 2>&1
 
-echo "Percona is ready!"
+echo
+echo "- Setting up MySQL..."
+echo
 
 aptitude -y install expect > /dev/null 2>&1
 
 SECURE_MYSQL=$(expect -c "
-set timeout 5
+set timeout 10
 spawn mysql_secure_installation
 expect \"Enter current password for root (enter for none):\"
 send \"$MYSQL_ROOT_PASSWORD\r\"
@@ -191,7 +195,7 @@ expect eof
 aptitude -y purge expect > /dev/null 2>&1
 
 echo
-echo "MySQL (Percona XtraDB Server) installed succesful!"
+echo "==> MySQL (Percona XtraDB Server) installed succesful!"
 echo
 
 echo
@@ -200,20 +204,14 @@ echo
 
 useradd -g sudo -d /var/www/larascale -m -s /bin/bash larascale > /dev/null 2>&1
 larascale_password=$(gen_pass)
-echo
+
 echo -e "$larascale_password\n$larascale_password\n" | passwd larascale > /dev/null 2>&1
-echo
+
+mkdir -p /var/www/larascale/sites > /dev/null 2>&1
+chown -R larascale:www-data /var/www/larascale > /dev/null 2>&1
 
 echo
-echo "New larascale user password is: $larascale_password"
-echo
-
-mkdir -p /var/www/larascale/sites
-chown -R larascale:www-data /var/www/larascale
-
-
-echo
-echo "User larascale - added succesful!"
+echo "==> User larascale - added succesful!"
 echo
 
 echo
@@ -225,7 +223,7 @@ curl -sS https://getcomposer.org/installer | php > /dev/null 2>&1
 mv composer.phar /usr/local/bin/composer > /dev/null 2>&1 > /dev/null 2>&1
 
 echo
-echo "Installing Laravel 5.2, please wait, it can be more than 3 minutes..."
+echo "Installing Laravel 5.2, please wait, it can be more than 3-5 minutes..."
 echo
 
 composer create-project --prefer-dist laravel/laravel sites > /dev/null 2>&1
@@ -251,9 +249,10 @@ echo "Your Laravel site run on - http://$(ifconfig | grep -Eo 'inet (addr:)?([0-
 echo ""
 echo "==========="
 
-apt-get autoclean > /dev/null 2>&1
-apt-get autoremove > /dev/null 2>&1
-rm install.sh > /dev/null 2>&1
-rm percona-release_0.1-3.$(lsb_release -sc)_all.deb > /dev/null 2>&1
+apt-get clean -y > /dev/null 2>&1
+apt-get autoclean -y > /dev/null 2>&1
+apt-get autoremove -y > /dev/null 2>&1
+
+#rm percona-release_0.1-3.$(lsb_release -sc)_all.deb > /dev/null 2>&1
 
 exit
