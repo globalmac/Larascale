@@ -131,32 +131,42 @@ echo
 
 MYSQL_ROOT_PASSWORD=$(gen_pass)
 
-#apt-key adv --keyserver keys.gnupg.net --recv-keys 1C4CBDCDCD2EFD2A > /dev/null 2>&1
-#echo "deb http://repo.percona.com/apt `lsb_release -cs` main" >> /etc/apt/sources.list.d/percona.list
-#echo "deb-src http://repo.percona.com/apt `lsb_release -cs` main" >> /etc/apt/sources.list.d/percona.list
+#!/bin/bash
+
+echo "Type your percona server root password:"
+read MYSQL_PASSWORD
 
 wget https://repo.percona.com/apt/percona-release_0.1-3.$(lsb_release -sc)_all.deb > /dev/null 2>&1
+
 dpkg -i percona-release_0.1-3.$(lsb_release -sc)_all.deb > /dev/null 2>&1
 
+echo "Обновление..."
+
 apt-get update -y > /dev/null 2>&1
+apt-get upgrade -y > /dev/null 2>&1
+apt-get clean -y > /dev/null 2>&1
+apt-get autoclean -y > /dev/null 2>&1
+apt-get autoremove -y > /dev/null 2>&1
 
-#echo "percona-server-server-5.5 mysql-server/root_password password $MYSQL_ROOT_PASSWORD" | debconf-set-selections
-#echo "percona-server-server-5.5 mysql-server/root_password_again password $MYSQL_ROOT_PASSWORD" | debconf-set-selections
 
-read -p "Please copy this password - $MYSQL_ROOT_PASSWORD and paste them on root password field. Ok? [y/n]): " answer
-if [ "$answer" != 'y' ] && [ "$answer" != 'Y'  ]; then
-    echo '--------------------------'
-fi
+echo "percona-server-server-5.5 percona-server-server/root_password_again password $MYSQL_ROOT_PASSWORD" | debconf-set-selections
+echo "percona-server-server-5.5 percona-server-server/root_password password $MYSQL_ROOT_PASSWORD" | debconf-set-selections
 
-apt-get install -y percona-server-server-5.7 --quiet
+echo "Установка..."
+
+apt-get install percona-server-server-5.5 -y -qq > /dev/null 2>&1
+
+service mysql stop > /dev/null 2>&1
+
+echo "Обновление версии до 5.7 ..."
+
+apt-get install percona-server-server-5.7 -y -qq > /dev/null 2>&1
 
 mysql -e "CREATE FUNCTION fnv1a_64 RETURNS INTEGER SONAME 'libfnv1a_udf.so'" -u root -p$MYSQL_ROOT_PASSWORD
 mysql -e "CREATE FUNCTION fnv_64 RETURNS INTEGER SONAME 'libfnv_udf.so'" -u root -p$MYSQL_ROOT_PASSWORD
 mysql -e "CREATE FUNCTION murmur_hash RETURNS INTEGER SONAME 'libmurmur_udf.so'" -u root -p$MYSQL_ROOT_PASSWORD
 
-echo
-echo "=========== Attention! MySQL root user password is: $MYSQL_ROOT_PASSWORD ==========="
-echo
+echo "Percona is ready!"
 
 aptitude -y install expect > /dev/null 2>&1
 
