@@ -14,8 +14,7 @@ Simple & high-performance Laravel 5.2 install package (shell script) for Ubuntu 
 
 ```
 curl -O https://raw.githubusercontent.com/globalmac/LaraScale-Ubuntu/master/install.sh
-chmod +x install.sh
-bash install.sh
+chmod +x install.sh && bash install.sh
 
 ```
 
