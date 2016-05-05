@@ -12,14 +12,14 @@ if [ "x$(id -u)" != 'x0' ]; then
 fi
 
 # Check OS
-#if [ "$(head -n1 /etc/issue | cut -f 1 -d ' ')" != 'Ubuntu' && "$(head -n1 /etc/issue | cut -f 2 -d ' ')" != '14.04.4']; then
-#    echo
-#    echo "================== Error ====================="
-#    echo "This script may be run only on Ubuntu 14.04.4"
-#    echo "=============================================="
-#    echo
-#    exit 1
-#fi
+if [ "$(head -n1 /etc/issue | cut -f 1 -d ' ')" != 'Ubuntu' ] && [ "$(lsb_release -r|awk '{print $2}')" != '14.04' ]; then
+    echo
+    echo "================== Error ====================="
+    echo "This script may be run only on Ubuntu 14.04.4"
+    echo "=============================================="
+    echo
+    exit 1
+fi
 
 gen_pass() {
     MATRIX='0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'
@@ -146,7 +146,6 @@ apt-get clean -y > /dev/null 2>&1
 apt-get autoclean -y > /dev/null 2>&1
 apt-get autoremove -y > /dev/null 2>&1
 
-
 echo "percona-server-server-5.5 percona-server-server/root_password_again password $MYSQL_ROOT_PASSWORD" | debconf-set-selections > /dev/null 2>&1
 echo "percona-server-server-5.5 percona-server-server/root_password password $MYSQL_ROOT_PASSWORD" | debconf-set-selections > /dev/null 2>&1
 
@@ -211,7 +210,7 @@ mkdir -p /var/www/larascale/sites > /dev/null 2>&1
 chown -R larascale:www-data /var/www/larascale > /dev/null 2>&1
 
 echo
-echo "==> User larascale - added succesful!"
+echo "==> User larascale - added successfully!"
 echo
 
 echo
@@ -223,7 +222,7 @@ curl -sS https://getcomposer.org/installer | php > /dev/null 2>&1
 mv composer.phar /usr/local/bin/composer > /dev/null 2>&1 > /dev/null 2>&1
 
 echo
-echo "Installing Laravel 5.2, please wait, it can be more than 3-5 minutes..."
+echo "Installing Laravel 5.2 by Composer, please wait, it can be more than 3-5 minutes..."
 echo
 
 composer create-project --prefer-dist laravel/laravel sites > /dev/null 2>&1
@@ -237,7 +236,7 @@ service nginx restart > /dev/null 2>&1
 service mysql restart > /dev/null 2>&1
 
 echo "==========="
-echo "Installation complete succesful! Your new Laravel is ready!"
+echo "Installation complete successfully! Your new Laravel is ready!"
 echo "1) SSH user:"
 echo "Login: larascale"
 echo "Password: $larascale_password"
