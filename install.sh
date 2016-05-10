@@ -161,7 +161,7 @@ echo
 echo "- Update, please wait..."
 echo
 
-apt-get install percona-server-server-5.7 -y -qq > /dev/null 2>&1
+#apt-get install percona-server-server-5.7 -y -qq > /dev/null 2>&1
 
 mysql -e "CREATE FUNCTION fnv1a_64 RETURNS INTEGER SONAME 'libfnv1a_udf.so'" -u root -p$MYSQL_ROOT_PASSWORD > /dev/null 2>&1
 mysql -e "CREATE FUNCTION fnv_64 RETURNS INTEGER SONAME 'libfnv_udf.so'" -u root -p$MYSQL_ROOT_PASSWORD > /dev/null 2>&1
