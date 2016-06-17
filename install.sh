@@ -52,7 +52,7 @@ echo
 echo "- Nginx (stable >= 1.8)"
 echo "- PHP 7 with PHP-FPM"
 echo "- Memcached Server"
-echo "- Percona XtraDB Server 5.7 (fork MySQL)"
+echo "- Percona XtraDB Server 5.5 (fork MySQL)"
 echo "- Composer + Laravel 5.2"
 echo
 
