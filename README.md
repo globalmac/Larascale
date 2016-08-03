@@ -10,9 +10,19 @@ Simple & high-performance Laravel 5.2 install package (shell script) for Ubuntu 
 *   Composer
 *   Laravel 5.2
 
-## Install by root user:
+## Install with MySQL by root user:
 
 ```
+apt-get update -y && apt-get upgrade -y
+curl -O https://raw.githubusercontent.com/globalmac/LaraScale-Ubuntu/master/install.sh
+chmod +x install.sh && bash install.sh
+
+```
+
+## Install without any DB server by root user:
+
+```
+apt-get update -y && apt-get upgrade -y
 curl -O https://raw.githubusercontent.com/globalmac/LaraScale-Ubuntu/master/install.sh
 chmod +x install.sh && bash install.sh
 
