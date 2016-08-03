@@ -23,8 +23,8 @@ chmod +x install.sh && bash install.sh
 
 ```
 apt-get update -y && apt-get upgrade -y
-curl -O https://raw.githubusercontent.com/globalmac/LaraScale-Ubuntu/master/install.sh
-chmod +x install.sh && bash install.sh
+curl -O https://raw.githubusercontent.com/globalmac/LaraScale-Ubuntu/master/install-without-db.sh
+chmod +x install-without-db.sh && bash install-without-db.sh
 
 ```
 
