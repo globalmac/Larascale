@@ -64,10 +64,10 @@ if [ "$answer" != 'y' ] && [ "$answer" != 'Y'  ]; then
 fi
 
 echo
-echo "- Checking system updates, please wait..."
-apt-get update -y --force-yes -qq > /dev/null 2>&1
-echo "- System update, please wait..."
-apt-get upgrade -y --force-yes -qq > /dev/null 2>&1
+#echo "- Checking system updates, please wait..."
+#apt-get update -y --force-yes -qq > /dev/null 2>&1
+#echo "- System update, please wait..."
+#apt-get upgrade -y --force-yes -qq > /dev/null 2>&1
 
 echo "- System utils installing..."
 apt-get install mc zip unzip htop python-software-properties software-properties-common build-essential -y > /dev/null 2>&1
