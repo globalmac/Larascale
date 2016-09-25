@@ -53,7 +53,7 @@ echo "- Nginx (stable >= 1.8)"
 echo "- PHP 7 with PHP-FPM"
 echo "- Memcached Server"
 echo "- Percona XtraDB Server 5.5 (fork MySQL)"
-echo "- Composer + Laravel 5.2"
+echo "- Composer + Laravel 5.2 or 5.3"
 echo
 
 read -p 'Ok, install right now? [y/n]): ' answer
@@ -226,7 +226,9 @@ echo
 echo "Installing Laravel 5.2 by Composer, please wait, it can be more than 3-5 minutes..."
 echo
 
-composer create-project --prefer-dist laravel/laravel sites > /dev/null 2>&1
+composer create-project --prefer-dist laravel/laravel sites "5.2.*" > /dev/null 2>&1
+# If you want install Lrarvel 5.3 use below
+#composer create-project --prefer-dist laravel/laravel sites > /dev/null 2>&1
 chown -R larascale:www-data /var/www/larascale > /dev/null 2>&1
 cd sites
 chmod -R 777 storage > /dev/null 2>&1
