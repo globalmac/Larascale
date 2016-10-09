@@ -1,6 +1,12 @@
 # LaraScale package for Ubuntu 14.04
 Simple & high-performance Laravel 5.2 install package (shell script) for Ubuntu 14.04
 
+## Packages
+
+* PHP7 + MySQL 5.5 (Percona XtraDB Server) + Memcached => **install.sh**
+* PHP7 + PostgreSQL 9.6 + Memcached => **install-postgresql.sh**
+* PHP7 + Memcached => **install-without-db.sh**
+
 ## Include:
 
 *   Nginx
