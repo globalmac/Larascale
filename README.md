@@ -19,7 +19,7 @@ Simple & high-performance Laravel 5.2 install package (shell script) for Ubuntu 
 ## Install with MySQL by root user:
 
 ```
-apt-get update -y && apt-get upgrade -y
+apt-get update -y && apt-get upgrade -y && apt-get install curl -y
 curl -O https://raw.githubusercontent.com/globalmac/LaraScale-Ubuntu/master/install.sh
 chmod +x install.sh && bash install.sh
 
@@ -27,7 +27,7 @@ chmod +x install.sh && bash install.sh
 ## Install with PostgreSQL server by root user:
 
 ```
-apt-get update -y && apt-get upgrade -y
+apt-get update -y && apt-get upgrade -y && apt-get install curl -y
 curl -O https://raw.githubusercontent.com/globalmac/LaraScale-Ubuntu/master/install-postgresql.sh
 chmod +x install-postgresql.sh && bash install-postgresql.sh
 
@@ -36,7 +36,7 @@ chmod +x install-postgresql.sh && bash install-postgresql.sh
 ## Install without any DB server by root user:
 
 ```
-apt-get update -y && apt-get upgrade -y
+apt-get update -y && apt-get upgrade -y && apt-get install curl -y
 curl -O https://raw.githubusercontent.com/globalmac/LaraScale-Ubuntu/master/install-without-db.sh
 chmod +x install-without-db.sh && bash install-without-db.sh
 
