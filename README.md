@@ -24,6 +24,14 @@ curl -O https://raw.githubusercontent.com/globalmac/LaraScale-Ubuntu/master/inst
 chmod +x install.sh && bash install.sh
 
 ```
+## Install with PostgreSQL server by root user:
+
+```
+apt-get update -y && apt-get upgrade -y
+curl -O https://raw.githubusercontent.com/globalmac/LaraScale-Ubuntu/master/install-postgresql.sh
+chmod +x install-postgresql.sh && bash install-postgresql.sh
+
+```
 
 ## Install without any DB server by root user:
 
