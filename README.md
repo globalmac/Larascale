@@ -12,9 +12,9 @@ Simple & high-performance Laravel 5.2 install package (shell script) for Ubuntu 
 *   Nginx
 *   PHP 7 (PHP-FPM)
 *   Memcached Server
-*   Percona XtraDB Server
+*   Percona XtraDB Server 5.5 or PostgreSQL 9.6
 *   Composer
-*   Laravel 5.2
+*   Laravel 5.2 or Laravel 5.3
 
 ## Install with MySQL by root user:
 
