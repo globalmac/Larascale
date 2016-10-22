@@ -1,5 +1,5 @@
-# LaraScale package for Ubuntu 14.04
-Simple & high-performance Laravel 5.2 install package (shell script) for Ubuntu 14.04
+# LaraScale package for Ubuntu 14.04 (16.04 - in process)
+Simple & high-performance Laravel 5.2 install package (shell script) for Ubuntu 14.04 (16.04 - in process)
 
 ## Packages
 
@@ -15,6 +15,12 @@ Simple & high-performance Laravel 5.2 install package (shell script) for Ubuntu 
 *   Percona XtraDB Server 5.5 or PostgreSQL 9.6
 *   Composer
 *   Laravel 5.2 or Laravel 5.3
+
+## Install:
+
+Recomend to install on clean machine!
+
+This package test on DigitalOcean.com, Vscale.io & others VPS.
 
 ## Install with MySQL by root user:
 
