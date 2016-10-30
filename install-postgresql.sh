@@ -198,13 +198,13 @@ composer create-project --prefer-dist laravel/laravel sites "5.2.*" > /dev/null 
 # If you want install Lrarvel 5.3 use below
 #composer create-project --prefer-dist laravel/laravel sites > /dev/null 2>&1
 chown -R larascale:www-data /var/www/larascale > /dev/null 2>&1
-cd sites
+cd /var/www/larascale/sites
 chmod -R 777 storage > /dev/null 2>&1
 chmod -R 777 bootstrap/cache > /dev/null 2>&1
 
 service php7.0-fpm restart > /dev/null 2>&1
 service nginx restart > /dev/null 2>&1
-service mysql restart > /dev/null 2>&1
+service postgresql restart > /dev/null 2>&1
 
 echo "==========="
 echo "Installation complete successfully! Your new Laravel is ready!"
