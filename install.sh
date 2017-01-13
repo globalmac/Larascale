@@ -96,12 +96,13 @@ echo "13) php7.0-json"
 echo "14) php7.0-zip"
 echo "15) php7.0-memcached"
 echo "16) php7.0-imagick"
+echo "17) php7.0-xml"
 
 echo
 echo "- Installing, please wait..."
 echo
 
-apt-get install php7.0-fpm php7.0-common php7.0-gd php7.0-mysql php7.0-curl php7.0-cli php-pear php7.0-dev php7.0-imap php7.0-mcrypt php7.0-readline php7.0-mbstring php7.0-json php7.0-zip memcached php7.0-memcached php7.0-imagick imagemagick -y --force-yes -qq > /dev/null 2>&1
+apt-get install php7.0-fpm php7.0-common php7.0-gd php7.0-mysql php7.0-curl php7.0-cli php-pear php7.0-dev php7.0-imap php7.0-mcrypt php7.0-readline php7.0-mbstring php7.0-json php7.0-zip memcached php7.0-memcached php7.0-imagick php7.0-xml imagemagick -y --force-yes -qq > /dev/null 2>&1
 
 echo
 echo "==> PHP7 installed succesful!"
