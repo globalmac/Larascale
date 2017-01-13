@@ -95,6 +95,7 @@ echo "13) php7.0-json"
 echo "14) php7.0-zip"
 echo "15) php7.0-memcached"
 echo "16) php7.0-imagick"
+echo "17) php7.0-xml"
 
 echo
 echo "- Installing, please wait..."
