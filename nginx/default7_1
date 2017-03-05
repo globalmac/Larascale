@@ -1,0 +1,38 @@
+server {
+	listen 80 default default_server;
+	#server_name site.com;
+	
+	charset UTF-8;
+	#disable_symlinks if_not_owner from=/var/www/larascale/sites/public;
+	root /var/www/larascale/sites/public;
+	index  index.php;
+	
+	#access_log /var/log/nginx/larascale.log;
+	#error_log /var/log/nginx/larascale.error.log notice;
+	
+	
+	location ~ /\. {
+		deny all;
+		access_log off;
+		log_not_found off;
+	}
+	
+	location / {
+		try_files $uri $uri/ /index.php?$query_string;
+	}
+	
+	location ~ \..*/.*\.php$ {
+		# For super-cool-hackers
+		return 403;
+	}
+	
+	location ~ \.php$ {
+		try_files $uri /index.php =404;
+		fastcgi_pass unix:/var/run/php/php7.1-fpm.sock;
+		fastcgi_split_path_info ^(.+\.php)(/.*)$;
+		fastcgi_index index.php;
+		fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+		include fastcgi_params;
+	}
+
+}
