@@ -63,3 +63,13 @@ After installation you can login to ssh/sftp via user - **larascale**.
 Your site placed in **/var/www/larascale/sites**.
 
 More docs coming soon...
+
+
+## (DEV) Install PHP7.1 + PostgreSQL server + NodeJS + Python Supervisor + Beanstalkd Queques Server by root user:
+
+```
+apt-get update -y && apt-get upgrade -y && apt-get install curl -y
+curl -O https://raw.githubusercontent.com/globalmac/LaraScale-Ubuntu/master/new_install.sh
+chmod +x new_install.sh && bash new_install.sh
+
+```
