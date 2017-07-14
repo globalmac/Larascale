@@ -128,9 +128,8 @@ echo
 echo "=========== Larascale user setup ==========="
 echo
 
-useradd larascale > /dev/null 2>&1
-mkdir -p /home/larascale/.ssh > /dev/null 2>&1
 useradd -g sudo -d /home/larascale -m -s /bin/bash larascale > /dev/null 2>&1
+mkdir -p /home/larascale/.ssh > /dev/null 2>&1
 
 # Setup Bash For larascale User
 
