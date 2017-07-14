@@ -141,7 +141,7 @@ cp /root/.bashrc /home/larascale/.bashrc > /dev/null 2>&1
 # Set The Sudo Password For larascale
 
 LARASCALE_USER_PASSWORD=$(gen_pass)
-usermod --password $LARASCALE_USER_PASSWORD larascale > /dev/null 2>&1
+echo -e "$LARASCALE_USER_PASSWORD\n$LARASCALE_USER_PASSWORD\n" | passwd larascale > /dev/null 2>&1
 
 # Create The Server SSH Key
 
