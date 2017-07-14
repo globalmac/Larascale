@@ -82,7 +82,7 @@ echo "=========== Packages installing ==========="
 echo
 
 # Install helpful packages
-apt-get install mc zip unzip htop software-properties-common build-essential python-software-properties python-pip fail2ban gcc libmcrypt4 libpcre3-dev ufw unattended-upgrades whois -y > /dev/null 2>&1
+apt-get install zsh mc zip unzip htop software-properties-common build-essential python-software-properties python-pip fail2ban gcc libmcrypt4 libpcre3-dev ufw unattended-upgrades whois -y > /dev/null 2>&1
 #check_result $? "system packages not be installed!"
 
 # Disabled default IPV6 listing
@@ -128,12 +128,18 @@ echo
 echo "=========== Larascale user setup ==========="
 echo
 
-useradd -g sudo -d /home/larascale -m -s /bin/bash larascale > /dev/null 2>&1
+#useradd -g sudo -d /home/larascale -m -s /bin/bash larascale > /dev/null 2>&1
+#mkdir -p /home/larascale/.ssh > /dev/null 2>&1
+
+useradd larascale > /dev/null 2>&1
 mkdir -p /home/larascale/.ssh > /dev/null 2>&1
+mkdir -p /home/larascale/.forge > /dev/null 2>&1
+adduser larascale sudo > /dev/null 2>&1
+
 
 # Setup Bash For larascale User
 
-#chsh -s /bin/bash larascale > /dev/null 2>&1
+chsh -s /bin/bash larascale > /dev/null 2>&1
 cp /root/.profile /home/larascale/.profile > /dev/null 2>&1
 cp /root/.bashrc /home/larascale/.bashrc > /dev/null 2>&1
 
@@ -146,17 +152,18 @@ echo -e "$LARASCALE_USER_PASSWORD\n$LARASCALE_USER_PASSWORD\n" | passwd larascal
 
 ssh-keygen -f /home/larascale/.ssh/id_rsa -t rsa -N '' > /dev/null 2>&1
 
+# Add larascale User To www-data Group
+
+usermod -a -G www-data larascale > /dev/null 2>&1
+id larascale > /dev/null 2>&1
+groups larascale > /dev/null 2>&1
+
 # Setup larascale Home Directory Permissions
 
 chown -R larascale:larascale /home/larascale > /dev/null 2>&1
 chmod -R 755 /home/larascale > /dev/null 2>&1
 chmod 700 /home/larascale/.ssh/id_rsa > /dev/null 2>&1
 
-# Add larascale User To www-data Group
-
-usermod -a -G www-data larascale > /dev/null 2>&1
-id larascale > /dev/null 2>&1
-groups larascale > /dev/null 2>&1
 
 
 echo
