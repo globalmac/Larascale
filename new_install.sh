@@ -393,7 +393,8 @@ sudo -i -u postgres psql -q -c "ALTER USER postgres WITH PASSWORD '$PSQL_ROOT_PA
 sudo -i -u postgres psql -q -c "create database larascale with encoding='UNICODE';"
 sudo -i -u postgres psql -q -c "create user larascale with password '$PSQL_PASSWORD';"
 sudo -i -u postgres psql -q -c "grant all privileges on database larascale to larascale;"
-sudo -i -u postgres psql -q -c "CREATE EXTENSION pg_trgm;"
+sudo -i -u postgres psql -q -c "CREATE EXTENSION IF NOT EXISTS pg_trgm;"
+sudo -i -u postgres psql -d larascale -q -c "CREATE EXTENSION IF NOT EXISTS pg_trgm;"
 
 echo
 echo "==> PostgreSQL 9.6 installed succesful!"
