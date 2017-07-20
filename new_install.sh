@@ -133,7 +133,6 @@ echo
 
 useradd larascale > /dev/null 2>&1
 mkdir -p /home/larascale/.ssh > /dev/null 2>&1
-mkdir -p /home/larascale/.forge > /dev/null 2>&1
 adduser larascale sudo > /dev/null 2>&1
 
 
