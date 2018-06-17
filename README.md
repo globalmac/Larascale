@@ -1,3 +1,6 @@
+# WARNING! Big update coming soon...
+# Please, don't use this version on Ubuntu 18.04. 
+
 # LaraScale package for Ubuntu 16.04 (14.04)
 Simple & high-performance Laravel 5.4 install package (shell script) for Ubuntu 16.04 (14.04)
 
